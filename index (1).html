@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Offer Deal — Ads Command</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1217; --panel:#151B23; --panel-2:#1A222C; --line:#243040;
+    --txt:#E6EDF3; --muted:#8694A4; --faint:#5C6B7A;
+    --profit:#2EBD85; --profit-dim:#1c6b4d; --amber:#E8A03D; --loss:#E5484D;
+    --accent:#3B82F6; --star:#F2C14E;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+    --disp:"Space Grotesk",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--ink);color:var(--txt);font-family:var(--body);-webkit-font-smoothing:antialiased}
+  body{padding:0 0 64px}
+  a{color:var(--accent)}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+
+  /* Top bar */
+  .topbar{position:sticky;top:0;z-index:30;background:rgba(14,18,23,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topbar-in{display:flex;align-items:center;gap:16px;height:64px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:700;font-size:18px;letter-spacing:-.01em}
+  .logomark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--profit));display:grid;place-items:center;font-family:var(--disp);font-weight:700;color:#fff;font-size:15px}
+  .brand small{display:block;font-family:var(--body);font-weight:500;font-size:11px;color:var(--muted);letter-spacing:.02em;margin-top:1px}
+  .spacer{flex:1}
+  .demo-pill{display:none;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--amber);background:rgba(232,160,61,.1);border:1px solid rgba(232,160,61,.3);padding:5px 11px;border-radius:999px}
+  .demo-pill.on{display:inline-flex}
+  .demo-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--amber)}
+  select,.btn{font-family:var(--body);font-size:13px;font-weight:600;color:var(--txt);background:var(--panel-2);border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:border-color .15s,background .15s}
+  select:hover,.btn:hover{border-color:#37485c}
+  .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn-primary:hover{background:#2f73e6}
+  .btn .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;margin-right:7px;vertical-align:-2px;animation:sp .7s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .icon-btn{background:transparent;border:1px solid var(--line);width:38px;height:38px;border-radius:9px;display:grid;place-items:center;cursor:pointer;color:var(--muted)}
+  .icon-btn:hover{color:var(--txt);border-color:#37485c}
+
+  .updated{font-size:12px;color:var(--faint);font-family:var(--mono)}
+
+  /* Settings drawer */
+  .drawer{display:none;border-bottom:1px solid var(--line);background:var(--panel)}
+  .drawer.open{display:block}
+  .drawer-in{padding:22px 0 26px;display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  .fld{display:flex;flex-direction:column;gap:6px}
+  .fld label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .fld input{font-family:var(--mono);font-size:13px;color:var(--txt);background:var(--ink);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+  .fld input:focus{outline:none;border-color:var(--accent)}
+  .fld .hint{font-size:11px;color:var(--faint);line-height:1.5}
+  .c-12{grid-column:span 12}.c-8{grid-column:span 8}.c-6{grid-column:span 6}.c-4{grid-column:span 4}.c-3{grid-column:span 3}
+  .drawer-actions{grid-column:span 12;display:flex;gap:10px;align-items:center;margin-top:2px}
+  .save-note{font-size:12px;color:var(--faint)}
+
+  /* Hero KPIs */
+  .hero{padding:30px 0 10px}
+  .hero-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:14px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;position:relative;overflow:hidden}
+  .kpi.lead-kpi{background:linear-gradient(150deg,var(--panel),#16242b)}
+  .kpi .k-label{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:7px}
+  .kpi .k-val{font-family:var(--mono);font-weight:700;font-size:34px;line-height:1.05;margin-top:10px;letter-spacing:-.02em}
+  .kpi.lead-kpi .k-val{font-size:42px}
+  .kpi .k-sub{font-size:12px;color:var(--faint);margin-top:7px;font-family:var(--mono)}
+  .k-val.good{color:var(--profit)} .k-val.bad{color:var(--loss)} .k-val.warn{color:var(--amber)}
+  .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+  .mini{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .mini .m-label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .mini .m-val{font-family:var(--mono);font-weight:700;font-size:22px;margin-top:7px}
+  .mini .m-val.good{color:var(--profit)}.mini .m-val.bad{color:var(--loss)}
+
+  /* Table */
+  .section-head{display:flex;align-items:baseline;gap:12px;margin:34px 0 14px}
+  .section-head h2{font-family:var(--disp);font-weight:600;font-size:19px;margin:0;letter-spacing:-.01em}
+  .section-head .sub{font-size:13px;color:var(--muted)}
+  .table-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead th{text-align:right;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:13px 14px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--panel-2)}
+  thead th:first-child{text-align:left}
+  tbody td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono);white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--panel-2)}
+  td.ad{text-align:left;font-family:var(--body);font-weight:500;max-width:280px}
+  td.ad .camp{display:block;font-size:11px;color:var(--faint);font-weight:400;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .star{color:var(--star);margin-right:6px}
+  tr.hot td.ad{color:#fff}
+  tr.hot{background:rgba(242,193,78,.05)}
+  .cell-input{width:62px;font-family:var(--mono);font-weight:700;font-size:13px;text-align:right;color:var(--txt);background:var(--ink);border:1px solid var(--line);border-radius:7px;padding:6px 8px}
+  .cell-input:focus{outline:none;border-color:var(--accent)}
+  .pos{color:var(--profit)}.neg{color:var(--loss)}.zero{color:var(--faint)}
+  tfoot td{padding:14px;font-family:var(--mono);font-weight:700;text-align:right;border-top:2px solid var(--line);background:var(--panel-2)}
+  tfoot td:first-child{text-align:left;font-family:var(--body)}
+
+  /* states */
+  .state{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:40px;text-align:center;margin-top:30px}
+  .state h3{font-family:var(--disp);font-size:22px;margin:0 0 8px}
+  .state p{color:var(--muted);max-width:540px;margin:0 auto 22px;line-height:1.6}
+  .steps{text-align:left;max-width:560px;margin:0 auto 24px;display:flex;flex-direction:column;gap:12px}
+  .step{display:flex;gap:13px;align-items:flex-start}
+  .step .n{flex:none;width:24px;height:24px;border-radius:7px;background:var(--panel-2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:12px;color:var(--accent)}
+  .step .t{font-size:14px;color:var(--txt);line-height:1.55}
+  .step .t b{color:#fff}
+  .state-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .err{border-color:rgba(229,72,77,.4);background:rgba(229,72,77,.06)}
+  .err h3{color:var(--loss)}
+  .hidden{display:none}
+  .muted-link{color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:var(--body)}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr 1fr}.strip{grid-template-columns:1fr 1fr}
+    .drawer-in>*{grid-column:span 12 !important}
+    td.camp-col,th.camp-col{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar-in">
+    <div class="brand">
+      <div class="logomark">OD</div>
+      <div>Ads Command<small>Offer Deal · Meta</small></div>
+    </div>
+    <span class="demo-pill" id="demoPill"><span class="dot"></span>Demo data</span>
+    <div class="spacer"></div>
+    <span class="updated" id="updated"></span>
+    <select id="dateRange" title="Date range">
+      <option value="today">Today</option>
+      <option value="yesterday">Yesterday</option>
+      <option value="last_7d" selected>Last 7 days</option>
+      <option value="last_14d">Last 14 days</option>
+      <option value="last_30d">Last 30 days</option>
+      <option value="this_month">This month</option>
+      <option value="last_month">Last month</option>
+      <option value="maximum">All time</option>
+    </select>
+    <button class="btn btn-primary" id="refreshBtn">Refresh</button>
+    <button class="icon-btn" id="gearBtn" title="Settings">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </div>
+
+  <!-- Settings drawer -->
+  <div class="drawer" id="drawer">
+    <div class="wrap drawer-in">
+      <div class="fld c-8">
+        <label for="token">Meta access token</label>
+        <input id="token" type="password" placeholder="EAAB… (ads_read permission)" autocomplete="off" />
+        <span class="hint">Stored only in this browser (localStorage). Never sent anywhere except Meta's own API.</span>
+      </div>
+      <div class="fld c-4">
+        <label for="account">Ad account ID</label>
+        <input id="account" placeholder="act_1234567890 or 1234567890" autocomplete="off" />
+        <span class="hint">Find it in Ads Manager → top-left account picker.</span>
+      </div>
+      <div class="fld c-3">
+        <label for="avgFee">Avg assignment fee ($)</label>
+        <input id="avgFee" type="number" min="0" step="500" placeholder="10000" />
+        <span class="hint">Used for revenue & ROAS.</span>
+      </div>
+      <div class="fld c-3">
+        <label for="apiVer">API version</label>
+        <input id="apiVer" placeholder="v22.0" />
+        <span class="hint">Leave as-is unless Meta deprecates it.</span>
+      </div>
+      <div class="fld c-6">
+        <label>&nbsp;</label>
+        <span class="hint" style="padding-top:10px">Contracts are tagged per-ad in the table below and saved per ad account. Spend &amp; leads pull live from Meta — contracts are yours to mark.</span>
+      </div>
+      <div class="drawer-actions">
+        <button class="btn btn-primary" id="saveBtn">Save &amp; refresh</button>
+        <button class="btn" id="demoBtn">Load demo data</button>
+        <button class="muted-link" id="clearBtn">Clear saved credentials</button>
+        <span class="save-note" id="saveNote"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-grid">
+      <div class="kpi lead-kpi">
+        <div class="k-label">Cost / Contract</div>
+        <div class="k-val" id="kCpa">—</div>
+        <div class="k-sub" id="kCpaSub">spend ÷ contracts</div>
+      </div>
+      <div class="kpi">
+        <div class="k-label">Spend</div>
+        <div class="k-val" id="kSpend">—</div>
+        <div class="k-sub" id="kSpendSub"></div>
+      </div>
+      <div class="kpi">
+        <div class="k-label">Contracts</div>
+        <div class="k-val" id="kContracts">—</div>
+        <div class="k-sub" id="kContractsSub">tagged in table</div>
+      </div>
+      <div class="kpi">
+        <div class="k-label">ROAS</div>
+        <div class="k-val" id="kRoas">—</div>
+        <div class="k-sub" id="kRoasSub">revenue ÷ spend</div>
+      </div>
+    </div>
+    <div class="strip">
+      <div class="mini"><div class="m-label">Leads</div><div class="m-val" id="mLeads">—</div></div>
+      <div class="mini"><div class="m-label">Cost / Lead</div><div class="m-val" id="mCpl">—</div></div>
+      <div class="mini"><div class="m-label">Est. revenue</div><div class="m-val good" id="mRev">—</div></div>
+      <div class="mini"><div class="m-label">Net (rev − spend)</div><div class="m-val" id="mNet">—</div></div>
+    </div>
+  </section>
+
+  <!-- Setup / error states -->
+  <div id="setupState" class="state hidden">
+    <h3>Connect your Meta account</h3>
+    <p>Pull spend, leads and per-ad performance straight from the Meta Marketing API. Two short setup steps, then it's one click forever after.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div class="t">Get an <b>access token</b> with <b>ads_read</b> permission. Fastest test route: <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener">Graph API Explorer</a> → pick your app → add <b>ads_read</b> → Generate. For one that doesn't expire, create a <b>System User token</b> in Business Settings → Users → System Users.</div></div>
+      <div class="step"><div class="n">2</div><div class="t">Grab your <b>Ad account ID</b> from Ads Manager (top-left account picker — looks like <b>act_1234567890</b>).</div></div>
+      <div class="step"><div class="n">3</div><div class="t">Open <b>Settings</b> (gear, top right), paste both in, set your avg assignment fee, hit <b>Save &amp; refresh</b>.</div></div>
+    </div>
+    <div class="state-actions">
+      <button class="btn btn-primary" id="openSettings2">Open settings</button>
+      <button class="btn" id="demoBtn2">Explore with demo data</button>
+    </div>
+  </div>
+
+  <div id="errState" class="state err hidden">
+    <h3>Couldn't reach Meta</h3>
+    <p id="errMsg"></p>
+    <div class="state-actions">
+      <button class="btn btn-primary" id="openSettings3">Check settings</button>
+      <button class="btn" id="demoBtn3">Load demo data</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div id="tableSection" class="hidden">
+    <div class="section-head">
+      <h2>Per-ad performance</h2>
+      <span class="sub" id="tableSub"></span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ad / Campaign</th>
+            <th>Spend</th>
+            <th>Leads</th>
+            <th>CPL</th>
+            <th>Contracts</th>
+            <th>Cost / Contract</th>
+            <th>ROAS</th>
+            <th>Lead→Deal</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+        <tfoot id="tfoot"></tfoot>
+      </table>
+    </div>
+    <p style="font-size:12px;color:var(--faint);margin-top:12px;line-height:1.6">
+      Spend &amp; leads are live from Meta. Type the number of signed contracts each ad produced — saved automatically in this browser and used to compute true cost-per-contract and ROAS. Ads named with “as-is” or “AD3” are flagged ★.
+    </p>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var LS = {
+    token:"od_meta_token", acct:"od_meta_acct", fee:"od_avg_fee",
+    ver:"od_api_ver", range:"od_date_range", contracts:"od_contracts_"
+  };
+  var state = { rows:[], demo:false };
+
+  // ---- helpers ----
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ if(n==null||isNaN(n)) return "—"; return "$"+Math.round(n).toLocaleString(); }
+  function money2(n){ if(n==null||isNaN(n)) return "—"; return "$"+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function num(n){ if(n==null||isNaN(n)) return "—"; return Math.round(n).toLocaleString(); }
+  function acctKey(){ var a=(get(LS.acct)||"demo").replace(/[^0-9a-z_]/gi,""); return LS.contracts+a; }
+  function get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function del(k){ try{ localStorage.removeItem(k); }catch(e){} }
+  function loadContracts(){ try{ return JSON.parse(get(acctKey())||"{}"); }catch(e){ return {}; } }
+  function saveContracts(m){ set(acctKey(), JSON.stringify(m)); }
+
+  // ---- Meta fetch ----
+  function leadCount(actions){
+    if(!actions) return 0; var t=0;
+    for(var i=0;i<actions.length;i++){
+      var a=actions[i]; if(a.action_type && a.action_type.indexOf("lead")>-1){ t += parseFloat(a.value)||0; }
+    }
+    return t;
+  }
+  function normAcct(a){ a=(a||"").trim(); if(!a) return ""; return a.indexOf("act_")===0?a:"act_"+a.replace(/\D/g,""); }
+
+  function fetchInsights(){
+    var token=(get(LS.token)||"").trim();
+    var acct=normAcct(get(LS.acct));
+    var ver=(get(LS.ver)||"v22.0").trim();
+    var range=$("dateRange").value;
+    if(!token||!acct){ showSetup(); return; }
+    setLoading(true);
+    var fields="ad_id,ad_name,campaign_name,adset_name,spend,impressions,inline_link_clicks,actions";
+    var base="https://graph.facebook.com/"+ver+"/"+acct+"/insights";
+    var url=base+"?level=ad&date_preset="+encodeURIComponent(range)+"&fields="+fields+"&limit=300&access_token="+encodeURIComponent(token);
+    var collected=[];
+    function go(u){
+      fetch(u).then(function(r){ return r.json(); }).then(function(j){
+        if(j.error){ setLoading(false); showError(j.error.message+(j.error.error_user_msg?(" — "+j.error.error_user_msg):"")); return; }
+        if(j.data) collected=collected.concat(j.data);
+        if(j.paging && j.paging.next){ go(j.paging.next); }
+        else { state.demo=false; $("demoPill").classList.remove("on"); ingest(collected); setLoading(false); stamp(); }
+      }).catch(function(err){
+        setLoading(false);
+        showError("Network/CORS error: "+err.message+". If you opened this file directly, try hosting it on GitHub Pages — some browsers block cross-site calls from local files.");
+      });
+    }
+    go(url);
+  }
+
+  function ingest(data){
+    var saved=loadContracts();
+    state.rows = data.map(function(d){
+      var spend=parseFloat(d.spend)||0;
+      var leads=leadCount(d.actions);
+      var contracts=parseFloat(saved[d.ad_id]||0)||0;
+      return { id:d.ad_id, ad:d.ad_name||"(unnamed ad)", camp:d.campaign_name||"", spend:spend, leads:leads, contracts:contracts };
+    }).filter(function(r){ return r.spend>0 || r.leads>0; });
+    state.rows.sort(function(a,b){ return b.spend-a.spend; });
+    render();
+  }
+
+  // ---- render ----
+  function render(){
+    hideStates();
+    var fee=parseFloat(get(LS.fee))||0;
+    var T={spend:0,leads:0,contracts:0};
+    state.rows.forEach(function(r){ T.spend+=r.spend; T.leads+=r.leads; T.contracts+=r.contracts; });
+    var rev=T.contracts*fee, net=rev-T.spend, roas=T.spend>0?rev/T.spend:0;
+    var cpa=T.contracts>0?T.spend/T.contracts:null, cpl=T.leads>0?T.spend/T.leads:null;
+
+    // hero
+    var cpaEl=$("kCpa"); cpaEl.textContent=cpa==null?"—":money(cpa);
+    cpaEl.className="k-val"+(cpa==null?"":(fee&&cpa<fee?" good":" warn"));
+    $("kCpaSub").textContent=T.contracts>0?(num(T.contracts)+" contracts · "+money(T.spend)):"no contracts tagged yet";
+    $("kSpend").textContent=money(T.spend);
+    $("kSpendSub").textContent=rangeLabel();
+    $("kContracts").textContent=num(T.contracts);
+    var roasEl=$("kRoas"); roasEl.textContent=T.spend>0?roas.toFixed(1)+"×":"—";
+    roasEl.className="k-val"+(T.spend>0?(roas>=1?" good":" bad"):"");
+    $("kRoasSub").textContent=fee?("@ "+money(fee)+"/deal"):"set avg fee in settings";
+
+    $("mLeads").textContent=num(T.leads);
+    $("mCpl").textContent=cpl==null?"—":money2(cpl);
+    $("mRev").textContent=money(rev);
+    var netEl=$("mNet"); netEl.textContent=(net<0?"−":"")+money(Math.abs(net));
+    netEl.className="m-val "+(net>=0?"good":"bad");
+
+    // table
+    var tb=$("tbody"); tb.innerHTML="";
+    state.rows.forEach(function(r){
+      var hot=/as-?is|ad\s?3/i.test(r.ad);
+      var rcpl=r.leads>0?r.spend/r.leads:null;
+      var rcpa=r.contracts>0?r.spend/r.contracts:null;
+      var rrev=r.contracts*fee, rroas=r.spend>0?rrev/r.spend:0;
+      var conv=r.leads>0?(r.contracts/r.leads*100):null;
+      var tr=document.createElement("tr"); if(hot) tr.className="hot";
+      tr.innerHTML=
+        '<td class="ad">'+(hot?'<span class="star">★</span>':'')+esc(r.ad)+'<span class="camp camp-col">'+esc(r.camp)+'</span></td>'+
+        '<td>'+money(r.spend)+'</td>'+
+        '<td>'+num(r.leads)+'</td>'+
+        '<td>'+(rcpl==null?'<span class="zero">—</span>':money2(rcpl))+'</td>'+
+        '<td><input class="cell-input" type="number" min="0" step="1" value="'+(r.contracts||0)+'" data-id="'+r.id+'"></td>'+
+        '<td>'+(rcpa==null?'<span class="zero">—</span>':money(rcpa))+'</td>'+
+        '<td class="'+(r.spend>0?(rroas>=1?'pos':'neg'):'zero')+'">'+(r.spend>0&&fee?rroas.toFixed(1)+'×':'<span class="zero">—</span>')+'</td>'+
+        '<td>'+(conv==null?'<span class="zero">—</span>':conv.toFixed(0)+'%')+'</td>';
+      tb.appendChild(tr);
+    });
+    var tf=$("tfoot");
+    tf.innerHTML='<tr><td>Total · '+state.rows.length+' ads</td><td>'+money(T.spend)+'</td><td>'+num(T.leads)+
+      '</td><td>'+(cpl==null?'—':money2(cpl))+'</td><td>'+num(T.contracts)+'</td><td>'+(cpa==null?'—':money(cpa))+
+      '</td><td class="'+(roas>=1?'pos':'neg')+'">'+(T.spend>0&&fee?roas.toFixed(1)+'×':'—')+'</td><td>'+
+      (T.leads>0?(T.contracts/T.leads*100).toFixed(0)+'%':'—')+'</td></tr>';
+
+    $("tableSub").textContent=state.demo?"sample data · "+rangeLabel():"live · "+rangeLabel();
+    $("tableSection").classList.remove("hidden");
+
+    // wire contract inputs
+    Array.prototype.forEach.call(tb.querySelectorAll(".cell-input"),function(inp){
+      inp.addEventListener("change",function(){
+        var id=inp.getAttribute("data-id"); var v=parseFloat(inp.value)||0;
+        var row=state.rows.filter(function(x){return x.id===id;})[0]; if(row) row.contracts=v;
+        if(!state.demo){ var m=loadContracts(); m[id]=v; saveContracts(m); }
+        render();
+      });
+    });
+  }
+  function esc(s){ return (s||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+
+  function rangeLabel(){ var s=$("dateRange"); return s.options[s.selectedIndex].text; }
+  function stamp(){ $("updated").textContent="Updated "+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); }
+
+  // ---- demo ----
+  function loadDemo(){
+    state.demo=true; $("demoPill").classList.add("on");
+    var d=[
+      {ad_id:"d1",ad_name:"Sell As-Is — Cash 7 Days (AD3)",campaign_name:"GA · Distress",spend:842.10,actions:[{action_type:"lead",value:"31"}]},
+      {ad_id:"d2",ad_name:"Foreclosure Help — Stop the Clock",campaign_name:"GA · Distress",spend:610.55,actions:[{action_type:"lead",value:"14"}]},
+      {ad_id:"d3",ad_name:"Inherited a House? We Buy It",campaign_name:"NC · Probate",spend:533.20,actions:[{action_type:"lead",value:"12"}]},
+      {ad_id:"d4",ad_name:"Tired Landlord Cash Offer",campaign_name:"NC · Probate",spend:298.00,actions:[{action_type:"lead",value:"6"}]},
+      {ad_id:"d5",ad_name:"Get a Fair Cash Offer Today",campaign_name:"GA · Broad",spend:471.80,actions:[{action_type:"lead",value:"9"}]}
+    ];
+    var demoContracts={d1:4,d2:1,d3:1,d4:0,d5:1};
+    state.rows=d.map(function(x){return {id:x.ad_id,ad:x.ad_name,camp:x.campaign_name,spend:x.spend,leads:leadCount(x.actions),contracts:demoContracts[x.ad_id]||0};});
+    state.rows.sort(function(a,b){return b.spend-a.spend;});
+    if(!get(LS.fee)) $("avgFee").value=10000, set(LS.fee,"10000");
+    render(); stamp();
+  }
+
+  // ---- UI states ----
+  function hideStates(){ $("setupState").classList.add("hidden"); $("errState").classList.add("hidden"); }
+  function showSetup(){ hideStates(); $("tableSection").classList.add("hidden"); $("setupState").classList.remove("hidden"); resetHero(); }
+  function showError(msg){ $("errMsg").textContent=msg; hideStates(); $("errState").classList.remove("hidden"); }
+  function resetHero(){ ["kCpa","kSpend","kContracts","kRoas","mLeads","mCpl","mRev","mNet"].forEach(function(i){$(i).textContent="—";}); }
+  function setLoading(on){
+    var b=$("refreshBtn");
+    b.innerHTML = on ? '<span class="spin"></span>Loading' : 'Refresh';
+    b.disabled = on;
+  }
+  function toggleDrawer(force){
+    var d=$("drawer"); var open = force!=null?force:!d.classList.contains("open");
+    d.classList.toggle("open",open);
+  }
+
+  // ---- init / wire ----
+  function hydrate(){
+    if(get(LS.token)) $("token").value=get(LS.token);
+    if(get(LS.acct)) $("account").value=get(LS.acct);
+    if(get(LS.fee)) $("avgFee").value=get(LS.fee);
+    $("apiVer").value=get(LS.ver)||"v22.0";
+    if(get(LS.range)) $("dateRange").value=get(LS.range);
+  }
+  function persistFromInputs(){
+    set(LS.token,$("token").value.trim());
+    set(LS.acct,$("account").value.trim());
+    set(LS.fee,$("avgFee").value.trim());
+    set(LS.ver,($("apiVer").value.trim()||"v22.0"));
+  }
+
+  $("gearBtn").addEventListener("click",function(){ toggleDrawer(); });
+  $("saveBtn").addEventListener("click",function(){
+    persistFromInputs();
+    var n=$("saveNote"); n.textContent="Saved ✓"; setTimeout(function(){n.textContent="";},1800);
+    toggleDrawer(false); fetchInsights();
+  });
+  $("clearBtn").addEventListener("click",function(){
+    [LS.token,LS.acct,LS.fee,LS.ver].forEach(del);
+    $("token").value="";$("account").value="";$("avgFee").value="";$("apiVer").value="v22.0";
+    $("saveNote").textContent="Cleared";
+    showSetup();
+  });
+  $("refreshBtn").addEventListener("click",function(){ if(state.demo){ loadDemo(); } else { fetchInsights(); } });
+  $("dateRange").addEventListener("change",function(){ set(LS.range,$("dateRange").value); if(state.demo){loadDemo();} else {fetchInsights();} });
+  ["demoBtn","demoBtn2","demoBtn3"].forEach(function(id){ var e=$(id); if(e) e.addEventListener("click",function(){ toggleDrawer(false); loadDemo(); }); });
+  ["openSettings2","openSettings3"].forEach(function(id){ var e=$(id); if(e) e.addEventListener("click",function(){ toggleDrawer(true); window.scrollTo({top:0,behavior:'smooth'}); }); });
+
+  hydrate();
+  if(get(LS.token) && get(LS.acct)){ fetchInsights(); } else { showSetup(); }
+})();
+</script>
+</body>
+</html>
