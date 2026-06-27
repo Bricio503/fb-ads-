@@ -1,0 +1,83 @@
+name: TEST - can we read leads
+
+# One-time check: confirms Meta will hand us your leads WITH the ad/campaign each came from.
+# Prints a masked sample to the log only. Commits nothing, stores no names/phones.
+on:
+  workflow_dispatch:
+
+jobs:
+  leadtest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe lead retrieval
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+          PAGE_ID:    ${{ secrets.PAGE_ID }}   # optional; auto-detected if blank
+        run: |
+          python3 - <<'PY'
+          import os, json, urllib.request, urllib.parse, urllib.error
+
+          TOKEN = os.environ["META_TOKEN"].strip()
+          PAGE  = os.environ.get("PAGE_ID", "").strip()
+          VER   = "v22.0"
+
+          def gj(url):
+              try: body = urllib.request.urlopen(url, timeout=60).read().decode()
+              except urllib.error.HTTPError as e: body = e.read().decode()
+              return json.loads(body)
+
+          def q(params): return urllib.parse.urlencode(params)
+
+          # 1) Find page(s)
+          pages = []
+          if PAGE:
+              pages = [{"id": PAGE, "name": "(from PAGE_ID secret)"}]
+          else:
+              j = gj("https://graph.facebook.com/%s/me/accounts?fields=id,name&access_token=%s" % (VER, urllib.parse.quote(TOKEN)))
+              if "error" in j:
+                  raise SystemExit("Couldn't list pages: %s\n(If this says permission, the token needs 'pages_show_list'.)" % j["error"].get("message"))
+              pages = j.get("data", [])
+          if not pages:
+              raise SystemExit("No pages found on this token. Add the page to your token, or set a PAGE_ID secret.")
+          print("Pages found:", [p["name"] for p in pages])
+
+          def mask_phone(s):
+              d = "".join(c for c in s if c.isdigit())
+              return ("***" + d[-4:]) if len(d) >= 4 else "***"
+
+          total = 0; samples = []
+          for p in pages:
+              forms = gj("https://graph.facebook.com/%s/%s/leadgen_forms?fields=id,name&access_token=%s" % (VER, p["id"], urllib.parse.quote(TOKEN)))
+              if "error" in forms:
+                  print("  Page %s: forms error -> %s" % (p["name"], forms["error"].get("message")))
+                  continue
+              for f in forms.get("data", []):
+                  url = "https://graph.facebook.com/%s/%s/leads?%s" % (VER, f["id"],
+                        q({"fields":"created_time,ad_name,campaign_name,field_data","limit":"25","access_token":TOKEN}))
+                  lj = gj(url)
+                  if "error" in lj:
+                      print("  Form '%s': leads error -> %s" % (f.get("name"), lj["error"].get("message")))
+                      continue
+                  for ld in lj.get("data", []):
+                      total += 1
+                      phone = name = ""
+                      for fd in ld.get("field_data", []):
+                          nm = (fd.get("name") or "").lower()
+                          val = (fd.get("values") or [""])[0]
+                          if "phone" in nm: phone = val
+                          elif "name" in nm and not name: name = val
+                      if len(samples) < 10:
+                          samples.append("  %s -> ad '%s' / campaign '%s'" % (
+                              mask_phone(phone) if phone else "(no phone)",
+                              ld.get("ad_name") or "?", ld.get("campaign_name") or "?"))
+
+          print("\nTotal leads readable:", total)
+          print("Sample (masked) of lead -> ad attribution:")
+          print("\n".join(samples) if samples else "  (none)")
+          if total > 0 and any("-> ad '" in s and "'?'" not in s for s in samples):
+              print("\nRESULT: SUCCESS - leads come back WITH their source ad. Attribution will work.")
+          elif total > 0:
+              print("\nRESULT: Leads readable, but ad names missing - tell Claude, small fix.")
+          else:
+              print("\nRESULT: No leads readable - likely needs 'leads_retrieval' permission. Tell Claude.")
+          PY
