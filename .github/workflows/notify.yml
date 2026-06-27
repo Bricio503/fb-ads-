@@ -1,1 +1,146 @@
+name: Daily ads digest
 
+# Runs every morning ~8am ET. Weekly summary is included on Mondays.
+# You can also trigger it by hand from the Actions tab to test.
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build and send Slack digest
+        env:
+          META_TOKEN:    ${{ secrets.META_TOKEN }}
+          AD_ACCOUNT:    ${{ secrets.AD_ACCOUNT }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        run: |
+          python3 - <<'PY'
+          import os, json, datetime, urllib.request, urllib.parse, urllib.error
+
+          TOKEN = os.environ["META_TOKEN"].strip()
+          ACCT  = os.environ["AD_ACCOUNT"].strip()
+          HOOK  = os.environ["SLACK_WEBHOOK"].strip()
+          if not ACCT.startswith("act_"):
+              ACCT = "act_" + "".join(c for c in ACCT if c.isdigit())
+
+          VER = "v22.0"
+          # ---- Money-leak threshold: alert if an ad spent this much in 7d with ZERO leads ----
+          ALERT_SPEND = 50.0
+          # ------------------------------------------------------------------------------------
+
+          PRIORITY = ["onsite_conversion.lead_grouped","leadgen_grouped","leadgen.other",
+                      "offsite_conversion.fb_pixel_lead","onsite_conversion.lead","lead"]
+
+          def lead_value(actions):
+              if not actions: return 0.0
+              m = {}
+              for a in actions:
+                  t = a.get("action_type")
+                  if t is not None:
+                      try: m[t] = float(a.get("value", 0))
+                      except Exception: m[t] = 0.0
+              for p in PRIORITY:
+                  if p in m: return m[p]
+              for k, v in m.items():
+                  if "lead" in k: return v
+              return 0.0
+
+          def get_json(url):
+              try:
+                  body = urllib.request.urlopen(url, timeout=60).read().decode()
+              except urllib.error.HTTPError as e:
+                  body = e.read().decode()
+              return json.loads(body)
+
+          def fetch(preset):
+              params = urllib.parse.urlencode({
+                  "level": "ad", "date_preset": preset,
+                  "fields": "ad_name,campaign_name,spend,actions",
+                  "limit": "300", "access_token": TOKEN,
+              })
+              url = "https://graph.facebook.com/%s/%s/insights?%s" % (VER, ACCT, params)
+              rows = []
+              while url:
+                  j = get_json(url)
+                  if "error" in j:
+                      raise RuntimeError(j["error"].get("message", "unknown error"))
+                  for d in j.get("data", []):
+                      rows.append({
+                          "ad": d.get("ad_name") or "(unnamed)",
+                          "camp": d.get("campaign_name") or "",
+                          "spend": float(d.get("spend", 0) or 0),
+                          "leads": lead_value(d.get("actions")),
+                      })
+                  url = j.get("paging", {}).get("next")
+              return rows
+
+          def money(n): return "$%s" % format(int(round(n)), ",")
+          def cpl(s, l): return ("$%.2f" % (s/l)) if l > 0 else "—"
+
+          def totals(rows):
+              s = sum(r["spend"] for r in rows)
+              l = sum(r["leads"] for r in rows)
+              return s, l
+
+          # Pull data
+          try:
+              y_rows = fetch("yesterday")
+              w_rows = fetch("last_7d")
+          except Exception as e:
+              # Still tell Slack something went wrong rather than fail silently
+              msg = {"text": ":warning: *Offer Deal digest failed:* %s" % e}
+              urllib.request.urlopen(urllib.request.Request(
+                  HOOK, data=json.dumps(msg).encode(),
+                  headers={"Content-Type": "application/json"}), timeout=30)
+              raise
+
+          ys, yl = totals(y_rows)
+          ws, wl = totals(w_rows)
+          today = datetime.datetime.utcnow()
+          is_monday = today.weekday() == 0
+
+          lines = []
+          lines.append(":bar_chart: *Offer Deal — Daily Ads Digest*  _(%s)_" % today.strftime("%b %d"))
+          lines.append("")
+          lines.append("*Yesterday:*  %s spend · %d leads · %s CPL" % (money(ys), int(round(yl)), cpl(ys, yl)))
+          lines.append("*Last 7 days:*  %s spend · %d leads · %s CPL" % (money(ws), int(round(wl)), cpl(ws, wl)))
+
+          # Best performer (7d): lowest CPL among ads with leads
+          with_leads = [r for r in w_rows if r["leads"] > 0 and r["spend"] > 0]
+          if with_leads:
+              best = min(with_leads, key=lambda r: r["spend"]/r["leads"])
+              lines.append("*Best ad (7d):*  %s — %s CPL (%d leads)" % (
+                  best["ad"], cpl(best["spend"], best["leads"]), int(round(best["leads"]))))
+
+          # Money leaks: spent >= threshold, zero leads (7d)
+          leaks = sorted([r for r in w_rows if r["leads"] == 0 and r["spend"] >= ALERT_SPEND],
+                         key=lambda r: r["spend"], reverse=True)
+          lines.append("")
+          if leaks:
+              lines.append(":rotating_light: *Money leaks (7d, $%d+ spent, 0 leads):*" % int(ALERT_SPEND))
+              for r in leaks[:8]:
+                  lines.append("• %s — %s, 0 leads" % (r["ad"], money(r["spend"])))
+          else:
+              lines.append(":white_check_mark: No money leaks — every spending ad got leads.")
+
+          # Weekly summary on Mondays: by-campaign breakdown
+          if is_monday:
+              lines.append("")
+              lines.append(":calendar: *Weekly summary — by campaign (last 7d)*")
+              by_camp = {}
+              for r in w_rows:
+                  c = by_camp.setdefault(r["camp"] or "(no campaign)", {"s":0.0,"l":0.0})
+                  c["s"] += r["spend"]; c["l"] += r["leads"]
+              for name, c in sorted(by_camp.items(), key=lambda kv: kv[1]["s"], reverse=True):
+                  lines.append("• *%s* — %s · %d leads · %s CPL" % (
+                      name, money(c["s"]), int(round(c["l"])), cpl(c["s"], c["l"])))
+
+          text = "\n".join(lines)
+          req = urllib.request.Request(HOOK, data=json.dumps({"text": text}).encode(),
+                                       headers={"Content-Type": "application/json"})
+          urllib.request.urlopen(req, timeout=30)
+          print("Sent Slack digest. Monday=%s, leaks=%d" % (is_monday, len(leaks)))
+          PY
