@@ -1,0 +1,470 @@
+{
+ "updated": "2026-06-27T16:02:50.487383Z",
+ "account": "act_624147394033441",
+ "ranges": {
+  "today": [
+   {
+    "ad_id": "120249466999090022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 6.03,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   }
+  ],
+  "yesterday": [
+   {
+    "ad_id": "120249466999090022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 73.23,
+    "leads": 0.0,
+    "lead_type": ""
+   }
+  ],
+  "last_7d": [
+   {
+    "ad_id": "120249466999080022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 203.27,
+    "leads": 5.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249466999090022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 382.85,
+    "leads": 4.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543030022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 262.27,
+    "leads": 3.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543040022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 9.34,
+    "leads": 0.0,
+    "lead_type": ""
+   }
+  ],
+  "last_14d": [
+   {
+    "ad_id": "120249461374910022",
+    "ad_name": "Ad1 \u2014 We Buy Houses Cash",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 0.82,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249466999080022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 730.32,
+    "leads": 14.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249466999090022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 423.51,
+    "leads": 4.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543030022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 1070.22,
+    "leads": 14.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543040022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 11.08,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249469543070022",
+    "ad_name": "Ad1 \u2014 We Buy Houses Cash",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 7.93,
+    "leads": 0.0,
+    "lead_type": ""
+   }
+  ],
+  "last_30d": [
+   {
+    "ad_id": "120249461374910022",
+    "ad_name": "Ad1 \u2014 We Buy Houses Cash",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 603.2,
+    "leads": 8.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249466999070022",
+    "ad_name": "Ad2 \u2014 Sell Your House Fast",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 64.32,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249466999080022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 1125.62,
+    "leads": 20.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249466999090022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 470.68,
+    "leads": 8.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543030022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 2194.51,
+    "leads": 31.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543040022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 85.64,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249469543050022",
+    "ad_name": "Ad2 \u2014 Sell Your House Fast",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 198.09,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543070022",
+    "ad_name": "Ad1 \u2014 We Buy Houses Cash",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 65.17,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   }
+  ],
+  "this_month": [
+   {
+    "ad_id": "120249461374910022",
+    "ad_name": "Ad1 \u2014 We Buy Houses Cash",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 582.79,
+    "leads": 8.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249466999070022",
+    "ad_name": "Ad2 \u2014 Sell Your House Fast",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 64.32,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249466999080022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 1112.44,
+    "leads": 20.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249466999090022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 476.71,
+    "leads": 9.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543030022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 2175.36,
+    "leads": 31.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543040022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 84.66,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249469543050022",
+    "ad_name": "Ad2 \u2014 Sell Your House Fast",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 176.34,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543070022",
+    "ad_name": "Ad1 \u2014 We Buy Houses Cash",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 59.59,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   }
+  ],
+  "last_month": [
+   {
+    "ad_id": "120249461374910022",
+    "ad_name": "Ad1 \u2014 We Buy Houses Cash",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 20.41,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249466999080022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 13.18,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249469543030022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 19.15,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249469543040022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 0.98,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249469543050022",
+    "ad_name": "Ad2 \u2014 Sell Your House Fast",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 21.75,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249469543070022",
+    "ad_name": "Ad1 \u2014 We Buy Houses Cash",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 5.58,
+    "leads": 0.0,
+    "lead_type": ""
+   }
+  ],
+  "maximum": [
+   {
+    "ad_id": "120231545684400022",
+    "ad_name": "Traditional - Home Ad",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 4876.82,
+    "leads": 84.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120231546142670022",
+    "ad_name": "Traditional - Shingle Blue Home",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 166.34,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120231547172530022",
+    "ad_name": "Traditional - 1 Story Home",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 75.39,
+    "leads": 3.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120231547266710022",
+    "ad_name": "Traditional - Home Ad",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 65.32,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120231547399430022",
+    "ad_name": "Traditional - 2 Story Home",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 31.8,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120231547682240022",
+    "ad_name": "Traditional - Easy sell Vid",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 1618.17,
+    "leads": 18.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120231548136200022",
+    "ad_name": "Traditional - Testimonial -",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 95.16,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120231548401760022",
+    "ad_name": "Traditional - No Repairs Vid",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 68.74,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120231548639060022",
+    "ad_name": "Traditional -OH Home",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 233.27,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120231798053030022",
+    "ad_name": "Traditional - No Repairs No Renovations",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 1326.31,
+    "leads": 16.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120231798554900022",
+    "ad_name": "Traditional -  Stress-Free Selling Experience",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 251.97,
+    "leads": 5.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120231798554910022",
+    "ad_name": "Traditional -Any Condition",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 401.98,
+    "leads": 11.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120231983584640022",
+    "ad_name": "Get a Cash Offer - SFH",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 119.26,
+    "leads": 3.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120232084584890022",
+    "ad_name": "Traditional - Home Ad - Copy",
+    "campaign_name": "Phase 1 Testing",
+    "spend": 22.53,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249461374910022",
+    "ad_name": "Ad1 \u2014 We Buy Houses Cash",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 603.2,
+    "leads": 8.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249466999070022",
+    "ad_name": "Ad2 \u2014 Sell Your House Fast",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 64.32,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249466999080022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 1125.62,
+    "leads": 20.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249466999090022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 Georgia",
+    "spend": 476.71,
+    "leads": 9.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543030022",
+    "ad_name": "AD 4 \u2014 What's Your Home Worth",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 2194.51,
+    "leads": 31.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543040022",
+    "ad_name": "AD 3 \u2014 Sell As-Is",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 85.64,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120249469543050022",
+    "ad_name": "Ad2 \u2014 Sell Your House Fast",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 198.09,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   },
+   {
+    "ad_id": "120249469543070022",
+    "ad_name": "Ad1 \u2014 We Buy Houses Cash",
+    "campaign_name": "Motivated Sellers \u2014 North Carolina",
+    "spend": 65.17,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
+   }
+  ]
+ }
+}
