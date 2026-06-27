@@ -1,1 +1,106 @@
+name: Refresh Meta ads data
 
+# Runs automatically every hour, and you can trigger it by hand any time.
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Pull data from Meta
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+          AD_ACCOUNT: ${{ secrets.AD_ACCOUNT }}
+        run: |
+          python3 - <<'PY'
+          import os, json, datetime, urllib.request, urllib.parse, urllib.error
+
+          TOKEN = os.environ["META_TOKEN"].strip()
+          ACCT  = os.environ["AD_ACCOUNT"].strip()
+          if not ACCT.startswith("act_"):
+              ACCT = "act_" + "".join(c for c in ACCT if c.isdigit())
+
+          VER = "v22.0"
+          PRESETS = ["today","yesterday","last_7d","last_14d","last_30d",
+                     "this_month","last_month","maximum"]
+          # Meta reports the same lead under several labels; pick ONE to avoid double counting.
+          PRIORITY = ["onsite_conversion.lead_grouped","leadgen_grouped","leadgen.other",
+                      "offsite_conversion.fb_pixel_lead","onsite_conversion.lead","lead"]
+
+          def lead_value(actions):
+              if not actions: return 0.0, ""
+              m = {}
+              for a in actions:
+                  t = a.get("action_type")
+                  if t is not None:
+                      try: m[t] = float(a.get("value", 0))
+                      except Exception: m[t] = 0.0
+              for p in PRIORITY:
+                  if p in m: return m[p], p
+              for k, v in m.items():
+                  if "lead" in k: return v, k
+              return 0.0, ""
+
+          def get_json(url):
+              try:
+                  resp = urllib.request.urlopen(url, timeout=60)
+                  body = resp.read().decode()
+              except urllib.error.HTTPError as e:
+                  body = e.read().decode()
+              return json.loads(body)
+
+          def fetch_preset(preset):
+              params = urllib.parse.urlencode({
+                  "level": "ad", "date_preset": preset,
+                  "fields": "ad_id,ad_name,campaign_name,spend,actions",
+                  "limit": "300", "access_token": TOKEN,
+              })
+              url = "https://graph.facebook.com/%s/%s/insights?%s" % (VER, ACCT, params)
+              rows = []
+              while url:
+                  j = get_json(url)
+                  if "error" in j:
+                      raise RuntimeError(j["error"].get("message", "unknown error"))
+                  for d in j.get("data", []):
+                      leads, lt = lead_value(d.get("actions"))
+                      rows.append({
+                          "ad_id": d.get("ad_id"),
+                          "ad_name": d.get("ad_name"),
+                          "campaign_name": d.get("campaign_name"),
+                          "spend": float(d.get("spend", 0) or 0),
+                          "leads": leads,
+                          "lead_type": lt,
+                      })
+                  url = j.get("paging", {}).get("next")
+              return rows
+
+          out = {"updated": datetime.datetime.utcnow().isoformat() + "Z",
+                 "account": ACCT, "ranges": {}}
+          for p in PRESETS:
+              try:
+                  out["ranges"][p] = fetch_preset(p)
+              except Exception as e:
+                  print("WARN %s: %s" % (p, e))
+                  out["ranges"][p] = []
+
+          with open("data.json", "w") as f:
+              json.dump(out, f, indent=1)
+          print("Wrote data.json:", {k: len(v) for k, v in out["ranges"].items()})
+          PY
+
+      - name: Commit data.json
+        run: |
+          git config user.name  "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data.json
+          git commit -m "Update Meta ads data" || echo "No changes to commit"
+          git push
