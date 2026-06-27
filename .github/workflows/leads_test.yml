@@ -1,0 +1,116 @@
+name: Pause / turn on an ad
+
+# Manually triggered. Lets you pause or reactivate an ad (or a whole campaign)
+# from the Actions tab without opening Ads Manager.
+on:
+  workflow_dispatch:
+    inputs:
+      level:
+        description: "Control a single ad, or a whole campaign?"
+        required: true
+        type: choice
+        default: ad
+        options:
+          - ad
+          - campaign
+      target:
+        description: "Name (or part of it), OR the exact numeric ID"
+        required: true
+      action:
+        description: "Pause or turn on?"
+        required: true
+        type: choice
+        default: pause
+        options:
+          - pause
+          - turn_on
+
+jobs:
+  control:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Change status on Meta
+        env:
+          META_TOKEN:    ${{ secrets.META_TOKEN }}
+          AD_ACCOUNT:    ${{ secrets.AD_ACCOUNT }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          LEVEL:  ${{ github.event.inputs.level }}
+          TARGET: ${{ github.event.inputs.target }}
+          ACTION: ${{ github.event.inputs.action }}
+        run: |
+          python3 - <<'PY'
+          import os, json, urllib.request, urllib.parse, urllib.error
+
+          TOKEN  = os.environ["META_TOKEN"].strip()
+          ACCT   = os.environ["AD_ACCOUNT"].strip()
+          HOOK   = os.environ.get("SLACK_WEBHOOK", "").strip()
+          LEVEL  = os.environ["LEVEL"].strip().lower()         # ad | campaign
+          TARGET = os.environ["TARGET"].strip()
+          ACTION = os.environ["ACTION"].strip().lower()        # pause | turn_on
+          if not ACCT.startswith("act_"):
+              ACCT = "act_" + "".join(c for c in ACCT if c.isdigit())
+
+          VER    = "v22.0"
+          STATUS = "PAUSED" if ACTION == "pause" else "ACTIVE"
+          EDGE   = "campaigns" if LEVEL == "campaign" else "ads"
+
+          def get_json(url):
+              try:
+                  body = urllib.request.urlopen(url, timeout=60).read().decode()
+              except urllib.error.HTTPError as e:
+                  body = e.read().decode()
+              return json.loads(body)
+
+          # 1) list every ad/campaign in the account
+          items = []
+          url = ("https://graph.facebook.com/%s/%s/%s?fields=id,name&limit=500&access_token=%s"
+                 % (VER, ACCT, EDGE, urllib.parse.quote(TOKEN)))
+          while url:
+              j = get_json(url)
+              if "error" in j:
+                  raise RuntimeError(j["error"].get("message", "list failed"))
+              items += j.get("data", [])
+              url = j.get("paging", {}).get("next")
+
+          # 2) find the match(es)
+          if TARGET.isdigit():
+              matches = [x for x in items if x["id"] == TARGET]
+          else:
+              t = TARGET.lower()
+              matches = [x for x in items if t in (x.get("name", "").lower())]
+
+          if not matches:
+              raise SystemExit("No %s matched '%s'. Check the name/ID." % (LEVEL, TARGET))
+          if len(matches) > 1 and not TARGET.isdigit():
+              listing = "; ".join("%s (%s)" % (x["name"], x["id"]) for x in matches)
+              raise SystemExit("'%s' matched %d %ss: %s -- be more specific or use the exact ID."
+                               % (TARGET, len(matches), LEVEL, listing))
+
+          # 3) flip status
+          done = []
+          for x in matches:
+              data = urllib.parse.urlencode({"status": STATUS, "access_token": TOKEN}).encode()
+              req = urllib.request.Request("https://graph.facebook.com/%s/%s" % (VER, x["id"]), data=data)
+              try:
+                  r = json.loads(urllib.request.urlopen(req, timeout=60).read().decode())
+              except urllib.error.HTTPError as e:
+                  r = json.loads(e.read().decode())
+              if r.get("success") or r.get("id"):
+                  done.append(x); print("OK: %s -> %s" % (x["name"], STATUS))
+              else:
+                  raise RuntimeError("Failed on %s: %s" % (x["name"], r))
+
+          # 4) Slack confirmation (uses your existing webhook/Zap)
+          if HOOK and done:
+              verb = "Paused" if STATUS == "PAUSED" else "Turned ON"
+              text = ":control_knobs: *%s %d %s(s):*\n" % (verb, len(done), LEVEL) + \
+                     "\n".join("- %s" % x["name"] for x in done)
+              if STATUS == "ACTIVE":
+                  text += "\n_Note: an ad only delivers if its ad set and campaign are also on._"
+              try:
+                  urllib.request.urlopen(urllib.request.Request(
+                      HOOK, data=json.dumps({"text": text}).encode(),
+                      headers={"Content-Type": "application/json"}), timeout=30)
+              except Exception as e:
+                  print("Slack note failed:", e)
+          PY
