@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-17T18:11:47.511882Z",
+ "updated": "2026-09-17T21:20:23.687550Z",
  "account": "act_624147394033441",
  "ranges": {
   "today": [
@@ -7,7 +7,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 62.29,
+    "spend": 74.24,
     "leads": 4.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -20,10 +20,18 @@
     "lead_type": ""
    },
    {
+    "ad_id": "120254213789640022",
+    "ad_name": "AD 3 \u2014 Tired Landlord",
+    "campaign_name": "September NC CAMPAIGN -",
+    "spend": 0.21,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
     "ad_id": "120254213789660022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September NC CAMPAIGN -",
-    "spend": 51.21,
+    "spend": 71.82,
     "leads": 0.0,
     "lead_type": ""
    }
@@ -353,7 +361,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 1113.82,
+    "spend": 1125.77,
     "leads": 14.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -409,7 +417,7 @@
     "ad_id": "120254213789640022",
     "ad_name": "AD 3 \u2014 Tired Landlord",
     "campaign_name": "September NC CAMPAIGN -",
-    "spend": 20.27,
+    "spend": 20.48,
     "leads": 0.0,
     "lead_type": ""
    },
@@ -425,7 +433,7 @@
     "ad_id": "120254213789660022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September NC CAMPAIGN -",
-    "spend": 811.08,
+    "spend": 831.69,
     "leads": 9.0,
     "lead_type": "onsite_conversion.lead_grouped"
    }
@@ -677,7 +685,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 1113.82,
+    "spend": 1125.77,
     "leads": 14.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -733,7 +741,7 @@
     "ad_id": "120254213789640022",
     "ad_name": "AD 3 \u2014 Tired Landlord",
     "campaign_name": "September NC CAMPAIGN -",
-    "spend": 20.27,
+    "spend": 20.48,
     "leads": 0.0,
     "lead_type": ""
    },
@@ -749,7 +757,7 @@
     "ad_id": "120254213789660022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September NC CAMPAIGN -",
-    "spend": 811.08,
+    "spend": 831.69,
     "leads": 9.0,
     "lead_type": "onsite_conversion.lead_grouped"
    }
