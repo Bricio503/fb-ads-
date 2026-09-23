@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-22T22:07:18.392697Z",
+ "updated": "2026-09-23T00:31:13.385721Z",
  "account": "act_624147394033441",
  "ranges": {
   "today": [
@@ -7,7 +7,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 26.81,
+    "spend": 57.86,
     "leads": 0.0,
     "lead_type": ""
    },
@@ -15,7 +15,23 @@
     "ad_id": "120254137755920022",
     "ad_name": "AD 4 \u2014 Cash For Home",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 11.11,
+    "spend": 12.1,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120254137755940022",
+    "ad_name": "AD 2 \u2014 Fixer Upper",
+    "campaign_name": "September GA CAMPAIGN",
+    "spend": 0.04,
+    "leads": 0.0,
+    "lead_type": ""
+   },
+   {
+    "ad_id": "120254213789610022",
+    "ad_name": "AD 2 \u2014 Fixer Upper",
+    "campaign_name": "September NC CAMPAIGN -",
+    "spend": 0.02,
     "leads": 0.0,
     "lead_type": ""
    },
@@ -31,7 +47,7 @@
     "ad_id": "120254213789660022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September NC CAMPAIGN -",
-    "spend": 72.76,
+    "spend": 78.15,
     "leads": 0.0,
     "lead_type": ""
    }
@@ -41,7 +57,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 123.39,
+    "spend": 123.4,
     "leads": 3.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -107,7 +123,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 742.43,
+    "spend": 742.44,
     "leads": 13.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -189,7 +205,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 1479.62,
+    "spend": 1479.63,
     "leads": 19.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -271,7 +287,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 1553.89,
+    "spend": 1553.9,
     "leads": 19.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -353,7 +369,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 1580.7,
+    "spend": 1611.76,
     "leads": 19.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -361,7 +377,7 @@
     "ad_id": "120254137755920022",
     "ad_name": "AD 4 \u2014 Cash For Home",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 140.13,
+    "spend": 141.12,
     "leads": 4.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -377,7 +393,7 @@
     "ad_id": "120254137755940022",
     "ad_name": "AD 2 \u2014 Fixer Upper",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 7.78,
+    "spend": 7.82,
     "leads": 0.0,
     "lead_type": ""
    },
@@ -393,7 +409,7 @@
     "ad_id": "120254213789610022",
     "ad_name": "AD 2 \u2014 Fixer Upper",
     "campaign_name": "September NC CAMPAIGN -",
-    "spend": 50.68,
+    "spend": 50.7,
     "leads": 0.0,
     "lead_type": ""
    },
@@ -425,7 +441,7 @@
     "ad_id": "120254213789660022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September NC CAMPAIGN -",
-    "spend": 1312.78,
+    "spend": 1318.17,
     "leads": 12.0,
     "lead_type": "onsite_conversion.lead_grouped"
    }
@@ -677,7 +693,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 1580.7,
+    "spend": 1611.76,
     "leads": 19.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -685,7 +701,7 @@
     "ad_id": "120254137755920022",
     "ad_name": "AD 4 \u2014 Cash For Home",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 140.13,
+    "spend": 141.12,
     "leads": 4.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -701,7 +717,7 @@
     "ad_id": "120254137755940022",
     "ad_name": "AD 2 \u2014 Fixer Upper",
     "campaign_name": "September GA CAMPAIGN",
-    "spend": 7.78,
+    "spend": 7.82,
     "leads": 0.0,
     "lead_type": ""
    },
@@ -717,7 +733,7 @@
     "ad_id": "120254213789610022",
     "ad_name": "AD 2 \u2014 Fixer Upper",
     "campaign_name": "September NC CAMPAIGN -",
-    "spend": 50.68,
+    "spend": 50.7,
     "leads": 0.0,
     "lead_type": ""
    },
@@ -749,7 +765,7 @@
     "ad_id": "120254213789660022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "September NC CAMPAIGN -",
-    "spend": 1312.78,
+    "spend": 1318.17,
     "leads": 12.0,
     "lead_type": "onsite_conversion.lead_grouped"
    }
