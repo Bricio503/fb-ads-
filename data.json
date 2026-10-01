@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-01T13:10:08.265487Z",
+ "updated": "2026-10-01T18:52:02.531482Z",
  "account": "act_624147394033441",
  "ranges": {
   "today": [
@@ -7,9 +7,9 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 29.74,
-    "leads": 0.0,
-    "lead_type": ""
+    "spend": 94.77,
+    "leads": 2.0,
+    "lead_type": "onsite_conversion.lead_grouped"
    },
    {
     "ad_id": "120254137755920022",
@@ -23,7 +23,7 @@
     "ad_id": "120254509113120022",
     "ad_name": "AD 4 \u2014 Cash For Home",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 1.48,
+    "spend": 1.75,
     "leads": 0.0,
     "lead_type": ""
    },
@@ -31,9 +31,9 @@
     "ad_id": "120254509113130022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 5.41,
-    "leads": 0.0,
-    "lead_type": ""
+    "spend": 23.05,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
    }
   ],
   "yesterday": [
@@ -41,7 +41,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 124.91,
+    "spend": 124.98,
     "leads": 2.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -75,7 +75,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 569.34,
+    "spend": 569.41,
     "leads": 3.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -173,7 +173,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 1327.26,
+    "spend": 1327.33,
     "leads": 16.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -271,7 +271,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 2378.84,
+    "spend": 2378.91,
     "leads": 26.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -369,9 +369,9 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 29.74,
-    "leads": 0.0,
-    "lead_type": ""
+    "spend": 94.77,
+    "leads": 2.0,
+    "lead_type": "onsite_conversion.lead_grouped"
    },
    {
     "ad_id": "120254137755920022",
@@ -385,7 +385,7 @@
     "ad_id": "120254509113120022",
     "ad_name": "AD 4 \u2014 Cash For Home",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 1.48,
+    "spend": 1.75,
     "leads": 0.0,
     "lead_type": ""
    },
@@ -393,9 +393,9 @@
     "ad_id": "120254509113130022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 5.41,
-    "leads": 0.0,
-    "lead_type": ""
+    "spend": 23.05,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
    }
   ],
   "last_month": [
@@ -403,7 +403,7 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 2378.84,
+    "spend": 2378.91,
     "leads": 26.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -709,8 +709,8 @@
     "ad_id": "120254134485570022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 2408.58,
-    "leads": 26.0,
+    "spend": 2473.68,
+    "leads": 28.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
    {
@@ -789,7 +789,7 @@
     "ad_id": "120254509113120022",
     "ad_name": "AD 4 \u2014 Cash For Home",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 55.17,
+    "spend": 55.44,
     "leads": 1.0,
     "lead_type": "onsite_conversion.lead_grouped"
    },
@@ -797,9 +797,9 @@
     "ad_id": "120254509113130022",
     "ad_name": "AD 1 \u2014 Sell Your House Fast",
     "campaign_name": "OCTOBER GA CAMPAIGN",
-    "spend": 71.04,
-    "leads": 0.0,
-    "lead_type": ""
+    "spend": 88.68,
+    "leads": 1.0,
+    "lead_type": "onsite_conversion.lead_grouped"
    }
   ]
  }
